@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Emergency Response System</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="dashboard-header">
+        <div>
+            <h1>Smart Emergency Response System</h1>
+            <p>Emergency Response & Resource Management Dashboard</p>
+        </div>
+    </header>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="dashboard-container">
+
+
+        <!-- ================= STATISTICS ================= -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Total Emergencies</h3>
+                <p id="totalEmergencies">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Critical Emergencies</h3>
+                <p id="criticalEmergencies">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending Emergencies</h3>
+                <p id="pendingEmergencies">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Available Resources</h3>
+                <p id="availableResources">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Active Dispatches</h3>
+                <p id="activeDispatches">0</p>
+            </div>
+
+        </section>
+
+        <!-- ================= CREATE EMERGENCY ================= -->
+<section class="dashboard-section">
+
+    <div class="section-header">
+        <h2>Report New Emergency</h2>
+        <p>Create a new emergency request for the response system.</p>
+    </div>
+
+    <div class="emergency-form">
+
+        <div class="form-group">
+            <label for="emergencyType">Emergency Type</label>
+
+            <select id="emergencyType">
+                <option value="">Select emergency type</option>
+                <option value="MEDICAL">Medical</option>
+                <option value="FIRE">Fire</option>
+                <option value="ACCIDENT">Accident</option>
+                <option value="SECURITY">Security</option>
+                <option value="OTHER">Other</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="emergencySeverity">Severity</label>
+
+            <select id="emergencySeverity">
+                <option value="">Select severity</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="emergencyLocation">Location</label>
+
+            <select id="emergencyLocation">
+                <option value="">Select location</option>
+            </select>
+        </div>
+
+
+        <div class="form-group full-width">
+            <label for="emergencyDescription">Description</label>
+
+            <textarea
+                id="emergencyDescription"
+                rows="3"
+                placeholder="Describe the emergency..."
+            ></textarea>
+        </div>
+
+
+        <div class="form-actions">
+            <button
+                type="button"
+                class="create-emergency-btn"
+                onclick="createEmergency()"
+            >
+                Report Emergency
+            </button>
+        </div>
+
+        <p id="emergencyMessage" class="action-message"></p>
+
+    </div>
+
+</section>
+
+        <!-- ================= EMERGENCIES ================= -->
+        <section class="dashboard-section">
+
+            <div class="section-header">
+                <h2>Emergency Requests</h2>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Severity</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Reported</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="emergencyTable">
+
+                        <tr>
+                            <td colspan="7">
+                                Loading emergencies...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RESPONSE RESOURCES ================= -->
+        <section class="dashboard-section">
+
+            <div class="section-header">
+                <h2>Response Resources</h2>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Capacity</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="resourceTable">
+
+                        <tr>
+                            <td colspan="6">
+                                Loading resources...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ACTIVE DISPATCHES ================= -->
+        <section class="dashboard-section">
+
+            <div class="section-header">
+                <h2>Active Dispatches</h2>
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Emergency</th>
+                            <th>Resource</th>
+                            <th>Route</th>
+                            <th>Distance</th>
+                            <th>ETA</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="dispatchTable">
+
+                        <tr>
+                            <td colspan="8">
+                                Loading dispatches...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- ================= SYSTEM ANALYTICS ================= -->
+<section class="dashboard-section">
+
+    <div class="section-header">
+
+        <h2>System Analytics</h2>
+
+        <p>
+            Overview of emergency severity and response-resource utilization.
+        </p>
+
+    </div>
+
+
+    <div class="analytics-grid">
+
+
+        <!-- ================= EMERGENCY DISTRIBUTION ================= -->
+
+        <div class="analytics-card">
+
+            <div class="analytics-card-header">
+
+                <div>
+                    <h3>Emergency Distribution</h3>
+                    <p>Current emergency severity breakdown</p>
+                </div>
+
+            </div>
+
+
+            <div class="severity-analytics">
+
+                <div class="analytics-row">
+
+                    <div class="analytics-label">
+                        <span class="analytics-dot critical-dot"></span>
+                        Critical
+                    </div>
+
+                    <div class="analytics-bar-container">
+
+                        <div
+                            id="criticalBar"
+                            class="analytics-bar critical-bar"
+                        ></div>
+
+                    </div>
+
+                    <strong id="criticalCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="analytics-row">
+
+                    <div class="analytics-label">
+                        <span class="analytics-dot high-dot"></span>
+                        High
+                    </div>
+
+                    <div class="analytics-bar-container">
+
+                        <div
+                            id="highBar"
+                            class="analytics-bar high-bar"
+                        ></div>
+
+                    </div>
+
+                    <strong id="highCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="analytics-row">
+
+                    <div class="analytics-label">
+                        <span class="analytics-dot medium-dot"></span>
+                        Medium
+                    </div>
+
+                    <div class="analytics-bar-container">
+
+                        <div
+                            id="mediumBar"
+                            class="analytics-bar medium-bar"
+                        ></div>
+
+                    </div>
+
+                    <strong id="mediumCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="analytics-row">
+
+                    <div class="analytics-label">
+                        <span class="analytics-dot low-dot"></span>
+                        Low
+                    </div>
+
+                    <div class="analytics-bar-container">
+
+                        <div
+                            id="lowBar"
+                            class="analytics-bar low-bar"
+                        ></div>
+
+                    </div>
+
+                    <strong id="lowCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RESOURCE UTILIZATION ================= -->
+
+        <div class="analytics-card">
+
+            <div class="analytics-card-header">
+
+                <div>
+                    <h3>Resource Utilization</h3>
+                    <p>Current response-resource status</p>
+                </div>
+
+            </div>
+
+
+            <div class="resource-analytics">
+
+
+                <div class="resource-stat">
+
+                    <div class="resource-stat-top">
+
+                        <span>
+                            Available
+                        </span>
+
+                        <strong id="analyticsAvailable">
+                            0 / 0
+                        </strong>
+
+                    </div>
+
+                    <div class="resource-progress">
+
+                        <div
+                            id="availableResourceBar"
+                            class="resource-progress-bar available-resource-bar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="resource-stat">
+
+                    <div class="resource-stat-top">
+
+                        <span>
+                            Dispatched
+                        </span>
+
+                        <strong id="analyticsDispatched">
+                            0 / 0
+                        </strong>
+
+                    </div>
+
+                    <div class="resource-progress">
+
+                        <div
+                            id="dispatchedResourceBar"
+                            class="resource-progress-bar dispatched-resource-bar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="resource-stat">
+
+                    <div class="resource-stat-top">
+
+                        <span>
+                            Busy
+                        </span>
+
+                        <strong id="analyticsBusy">
+                            0 / 0
+                        </strong>
+
+                    </div>
+
+                    <div class="resource-progress">
+
+                        <div
+                            id="busyResourceBar"
+                            class="resource-progress-bar busy-resource-bar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="resource-summary">
+
+                <div>
+
+                    <span class="summary-number" id="analyticsTotalResources">
+                        0
+                    </span>
+
+                    <span class="summary-label">
+                        Total Resources
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span class="summary-number" id="analyticsActiveResources">
+                        0
+                    </span>
+
+                    <span class="summary-label">
+                        Active Resources
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+        <!-- ================= PRIORITY QUEUE ================= -->
+<section class="dashboard-section">
+
+    <div class="section-header priority-header">
+
+        <div>
+            <h2>Emergency Priority Queue</h2>
+
+            <p>
+                Emergencies are processed according to severity
+                using a priority queue.
+            </p>
+        </div>
+
+        <div class="priority-legend">
+
+            <span class="priority-rule">
+                <strong>1</strong> Critical
+            </span>
+
+            <span class="priority-rule">
+                <strong>2</strong> High
+            </span>
+
+            <span class="priority-rule">
+                <strong>3</strong> Medium
+            </span>
+
+            <span class="priority-rule">
+                <strong>4</strong> Low
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="priority-info">
+
+        <div class="priority-info-icon">
+            ⚡
+        </div>
+
+        <div>
+
+            <strong>
+                How priority works
+            </strong>
+
+            <p>
+                Critical emergencies are placed ahead of
+                High, Medium and Low severity emergencies.
+                Emergencies with the same severity are
+                ordered by their reporting time.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Position</th>
+
+                    <th>Priority</th>
+
+                    <th>Emergency ID</th>
+
+                    <th>Type</th>
+
+                    <th>Severity</th>
+
+                    <th>Status</th>
+
+                    <th>Location</th>
+
+                    <th>Reported</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="priorityTable">
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="empty-message"
+                    >
+                        Loading priority queue...
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="dashboard-footer">
+
+        <p>
+            Smart Emergency Response System |
+            Prototype Decision-Support System
+        </p>
+
+        <p>
+            Built with Python, FastAPI, SQLAlchemy, SQLite & JavaScript
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script src="/static/dashboard.js"></script>
+
+</body>
+
+</html>
